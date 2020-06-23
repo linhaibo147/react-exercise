@@ -1,35 +1,29 @@
-import React, { FC, ButtonHTMLAttributes, AnchorHTMLAttributes } from 'react'
-import classNames from 'classnames'
 
+
+import React,{FC,ButtonHTMLAttributes,AnchorHTMLAttributes} from 'react';
+
+//classnames 是可以组成多个class类名的库（解决react的多class名称的）
+import classNames from 'classnames'
 export type ButtonSize = 'lg' | 'sm'
 export type ButtonType = 'primary' | 'default' | 'danger' | 'link'
 
 interface BaseButtonProps {
-  className?: string;
-  disabled?: boolean;
-  size?: ButtonSize;
-  btnType?: ButtonType;
-  children: React.ReactNode;
-  href?: string;
+  className?:string;
+  disabled?:boolean;
+  size?:ButtonSize;
+  btnType?:ButtonType;
+  children:React.ReactNode;
+  href?:string
 }
-/*
-ButtonHTMLAttributes——是button标签的默认属性值，范性 <HTMLElement> 设置了其元素类型
-BaseButtonProps & ButtonHTMLAttributes<HTMLElement> 中的 & 是联合类型，表示符合这两个类型
-但是为了选择这两个属性中的一些属性，使用：Partial< a & b> 的形式
-*/
+
 type NativeButtonProps = BaseButtonProps & ButtonHTMLAttributes<HTMLElement>
 type AnchorButtonProps = BaseButtonProps & AnchorHTMLAttributes<HTMLElement>
-export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>
-/**
- * 页面中最常用的的按钮元素，适合于完成特定的交互
- * ### 引用方法
- *
- * ~~~js
- * import { Button } from 'vikingship'
- * ~~~
- */
-//在这里替换成了ButtonProps，表示props的类型
-export const Button: FC<ButtonProps> = (props) => {
+
+//TypeScript提供了从旧类型中创建新类型的一种方式 — 映射类型。 在映射类型里，新类型以相同的形式去转换旧类型里每个属性。
+export type ButtonProps = Partial<NativeButtonProps &  AnchorButtonProps>
+
+
+export const Button:FC<ButtonProps> = (props)=>{
   const {
     btnType,
     className,
@@ -39,7 +33,7 @@ export const Button: FC<ButtonProps> = (props) => {
     href,
     ...restProps
   } = props
-  // btn, btn-lg, btn-primary
+
   const classes = classNames('btn', className, {
     [`btn-${btnType}`]: btnType,
     [`btn-${size}`]: size,
@@ -67,6 +61,7 @@ export const Button: FC<ButtonProps> = (props) => {
     )
   }
 }
+
 
 Button.defaultProps = {
   disabled: false,
